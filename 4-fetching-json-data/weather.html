@@ -90,14 +90,54 @@
                 console.log("---------------------")
                 console.log("PART 1...")
 
+                console.log("Date Generated:", data.properties.updated.slice(0, 10)) // first 10 chars = YYYY-MM-DD
 
+                console.log("Number of Periods:", data.properties.periods.length)
 
+                let daytimePeriods = data.properties.periods.filter(period => period.isDaytime)
+                console.log("Daytime Periods:", daytimePeriods)
+
+                console.log("Number of Daytime Periods:", daytimePeriods.length)
+
+                daytimePeriods.forEach(period => {
+                    console.log(`${period.name}: ${period.temperature}${degreeSymbol}${period.temperatureUnit}, ${period.shortForecast || period.detailedForecast}`)
+                })
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                document.getElementById("display-date").innerText = data.properties.updated.slice(0, 10)
 
+                let forecastTable = document.getElementById("display-forecast")
 
+                let headerRow = forecastTable.insertRow()
+                let headers = ["Period", "Temperature", "Forecast", "Icon"]
+                headers.forEach(headerText => {
+                    let th = document.createElement("th")
+                    th.innerText = headerText
+                    headerRow.appendChild(th)
+                })
+
+                daytimePeriods.forEach(period => {
+                    let row = forecastTable.insertRow()
+
+                    let periodCell = row.insertCell()
+                    periodCell.innerText = period.name
+
+                    let tempCell = row.insertCell()
+                    tempCell.innerText = `${period.temperature}${degreeSymbol}${period.temperatureUnit}`
+
+                    let forecastCell = row.insertCell()
+                    forecastCell.innerText = period.shortForecast || period.detailedForecast
+
+                    let iconCell = row.insertCell()
+                    let img = document.createElement("img")
+                    img.src = period.icon
+                    img.alt = "weather icon"
+                    img.style.width = "50px"
+                    img.style.height = "50px"
+                    iconCell.appendChild(img)
+                })
 
             })
             .catch(err => console.log(err))

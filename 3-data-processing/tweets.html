@@ -102,16 +102,51 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A. First tweet author:", "@" + tweets[0].user.screen_name)
 
+        let mentions = tweets.filter(tweet => tweet.full_text.includes("@sandwoah"))
+        console.log("B. Users mentioning @sandwoah:")
+        mentions.forEach(tweet => {
+            console.log(tweet.user.screen_name)
+        })
 
-
-
+        let mostLikes = d3.max(mentions, tweet => tweet.likes_count)
+        let topMentionTweet = mentions.find(tweet => tweet.likes_count === mostLikes)
+        console.log("C. Most liked mention:", topMentionTweet.user.screen_name)
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        let sortedTweets = tweets.slice().sort((a, b) => b.likes_count - a.likes_count)
 
+        let table = document.getElementById("social-feed")
 
+        let headerRow = table.insertRow()
+        let headers = ["Tweet Id", "Tweet Text", "User Screen Name", "User Followers", "Tweet Likes"]
+        headers.forEach(headerText => {
+            let th = document.createElement("th")
+            th.innerText = headerText
+            headerRow.appendChild(th)
+        })
+
+        sortedTweets.forEach(tweet => {
+            let row = table.insertRow()
+
+            let idCell = row.insertCell()
+            idCell.innerText = tweet.id
+
+            let textCell = row.insertCell()
+            textCell.innerText = tweet.full_text
+
+            let screenNameCell = row.insertCell()
+            screenNameCell.innerText = tweet.user.screen_name
+
+            let followersCell = row.insertCell()
+            followersCell.innerText = tweet.user.followers
+
+            let likesCell = row.insertCell()
+            likesCell.innerText = tweet.likes_count
+        })
 
     </script>
 

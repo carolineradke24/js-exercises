@@ -86,18 +86,56 @@
                 console.log("---------------------")
                 console.log("PART 1...")
 
+                console.log("Number of Movies:", data.length)
 
+                data.forEach(movie => {
+                    console.log(`${movie.title} (${movie.year})`)
+                })
 
+                let highestRating = d3.max(data, movie => movie.rating)
+                let topMovie = data.find(movie => movie.rating === highestRating)
 
-
+                console.log("Top Rated Movie:", topMovie.title)
+                console.log("Rating:", topMovie.rating)
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                let selectMenu = document.getElementById("select-movie")
 
+                data.forEach(movie => {
+                    let option = document.createElement("option")
+                    option.value = movie.id
+                    option.text = movie.title
+                    selectMenu.appendChild(option)
+                })
 
+                function updateMovieInfo() {
+                    let selectedId = selectMenu.value
+                    if (selectedId === "N/A") {
+                        document.getElementById("display-title").innerText = "TODO"
+                        document.getElementById("display-year").innerText = "TODO"
+                        document.getElementById("display-rating").innerText = "X"
+                        document.getElementById("image-container").innerHTML = ""
+                        return
+                    }
 
+                    let selectedMovie = data.find(movie => movie.id == selectedId)
 
+                    document.getElementById("display-title").innerText = selectedMovie.title
+                    document.getElementById("display-year").innerText = selectedMovie.year
+                    document.getElementById("display-rating").innerText = selectedMovie.rating
+
+                    let imgContainer = document.getElementById("image-container")
+                    imgContainer.innerHTML = "" 
+                    let img = document.createElement("img")
+                    img.src = selectedMovie.poster_url
+                    img.alt = selectedMovie.title
+                    img.style.width = "200px"
+                    imgContainer.appendChild(img)
+                }
+
+                selectMenu.addEventListener("change", updateMovieInfo)
             })
             .catch(err => console.log(err))
 
