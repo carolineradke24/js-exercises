@@ -128,7 +128,7 @@
                     tempCell.innerText = `${period.temperature}${degreeSymbol}${period.temperatureUnit}`
 
                     let forecastCell = row.insertCell()
-                    forecastCell.innerText = period.shortForecast || period.detailedForecast
+                    forecastCell.innerText = period.detailedForecast || period.detailedForecast
 
                     let iconCell = row.insertCell()
                     let img = document.createElement("img")

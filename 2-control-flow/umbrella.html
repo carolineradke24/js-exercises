@@ -71,31 +71,38 @@
         console.log("---------------------")
         console.log("PART 1...")
 
-        let isRaining = true
-        let ownsUmbrella = false
+        var isRaining = true
+        console.log("IS RAINING:", isRaining)
 
-        console.log("Is it raining?", isRaining)
-        console.log("Owns an umbrella?", ownsUmbrella)
+        var ownsUmbrella = false
+        console.log("OWNS UMBRELLA:", ownsUmbrella)
 
-        if (!isRaining) {
-            console.log("Skies are clear")
-        } else {
+        if (isRaining) {
             if (ownsUmbrella) {
                 console.log("Bring your umbrella")
             } else {
                 console.log("Buy an umbrella")
             }
+        } else {
+            console.log("Skies are clear")
         }
+
 
         console.log("---------------------")
         console.log("PART 2...")
 
         function advise(isRaining, ownsUmbrella) {
-            if (!isRaining) {
-                return "Skies are clear"
+            var message
+            if (isRaining) {
+                if (ownsUmbrella) {
+                    message = "Bring your umbrella"
+                } else {
+                    message = "Buy an umbrella"
+                }
             } else {
-                return ownsUmbrella ? "Bring your umbrella" : "Buy an umbrella"
+                message = "Skies are clear"
             }
+            return message
         }
 
         console.log(advise(true, true))
@@ -103,20 +110,23 @@
         console.log(advise(false, true))
         console.log(advise(false, false))
 
+
         console.log("---------------------")
         console.log("PART 3...")
 
-        const rainCheckbox = document.getElementById("switch-raining")
-        const umbrellaCheckbox = document.getElementById("switch-umbrella")
-        const messageSpan = document.getElementById("display-message")
-        const adviseBtn = document.getElementById("advise")
+        var switchRaining = document.getElementById("switch-raining")
+        var switchUmbrella = document.getElementById("switch-umbrella")
+        var adviseButton = document.getElementById("advise")
+        var displayMessage = document.getElementById("display-message")
 
-        adviseBtn.addEventListener("click", function() {
-            const isRaining = rainCheckbox.checked
-            const ownsUmbrella = umbrellaCheckbox.checked
-            const message = advise(isRaining, ownsUmbrella)
-            messageSpan.innerHTML = message
-        })
+        function submitForm(params) {
+            var isRaining = switchRaining.checked
+            var ownsUmbrella = switchUmbrella.checked
+            var message = advise(isRaining, ownsUmbrella)
+
+            displayMessage.innerHTML = message
+        }
+        adviseButton.addEventListener("click", submitForm, false)
 
     </script>
 </body>
