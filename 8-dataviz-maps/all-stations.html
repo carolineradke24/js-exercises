@@ -86,7 +86,7 @@
       var zoomLevel = 8
 
       var map = L.map(mapContainerId)
-          .setView(latLonCoords, zoomLevel)
+          .setView(latLonCoords, zoomLevel);
 
       //
       // ADD MAP TILES
@@ -98,22 +98,24 @@
       L.tileLayer(tileUrlTemplate, tileLayerOptions)
           .addTo(map);
 
+      //
+      // ADD MARKER(S) TO MAP
+      //
 
+      trainStations.forEach(function(station){
+          //var stationPopup = station.name
 
-      console.log("---------------------")
-      console.log("PART 1...")
+          var stationPopup = `<b>${station.name}</b>`
+          stationPopup += "<br>"
+          stationPopup += "Some more content or context here."
+          stationPopup += "<br>"
+          stationPopup += `<a href='${station.url}'>See website for more information.</a>`
 
+          L.marker([station.lat, station.lon])
+              .addTo(map)
+              .bindPopup(stationPopup)
 
-
-
-
-
-      console.log("---------------------")
-      console.log("PART 2...")
-
-
-
-
+      })
 
     </script>
   </body>

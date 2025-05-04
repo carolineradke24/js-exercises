@@ -123,23 +123,55 @@
         // TASK A: POPULATE DROP-DOWN MENU
         //
 
+        var stationSelector = document.getElementById("station-selector")
 
+        trainStations.forEach(function(station){
+            // compile the <option> element:
+            // <option value="GCT">Grand Central Terminal</option>
+            var option = document.createElement("option")
+            option.value = station.abbrev
+            option.text = station.name
 
-
+            // Append the new option to the select element
+            stationSelector.appendChild(option)
+        })
 
 
         //
         // TASK B: DISPLAY THE SELECTED STATION ON THE MAP
         //
 
+        function updateMap() {
+        //function resetMarker(event) {
+            //var stationAbbrev = event.target.value
+            var stationAbbrev = stationSelector.value
+            console.log("SELECTION", stationAbbrev)
 
+            // find the matching station:
+            var station = trainStations.find(function(station){
+                return station.abbrev == stationAbbrev
+            })
+            console.log("STATION:", station)
 
+            markersLayer.clearLayers() // clear markers layer
+
+            var stationPopup = `<b>${station.name}</b>`
+            stationPopup += "<br>"
+            stationPopup += "Some more content or context here."
+            stationPopup += "<br>"
+            stationPopup += `<a href='${station.url}'>See website for more information.</a>`
+
+            L.marker([station.lat, station.lon])
+                .bindPopup(stationPopup)
+                .addTo(markersLayer) // add to markersLayer instead of map directly
+
+        }
 
         // UPDATE MAP WHEN THE PAGE LOADS:
-        // TODO
+        updateMap()
 
         // EVENT LISTENER:
-        // TODO
+        stationSelector.addEventListener("change", updateMap, false)
 
     </script>
   </body>
